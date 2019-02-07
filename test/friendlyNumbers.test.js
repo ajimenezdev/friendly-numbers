@@ -61,7 +61,7 @@ describe("Test FriendlyNumber format function with input numbers without decimal
     expect(formattedNumber1B).toBe("1B");
 
     const formattedNumber1B2 = format(1234000000);
-    expect(formattedNumber1B2).toBe("1.23B");
+    expect(formattedNumber1B2).toBe("1B");
 
     const formattedNumberNeg1B = format(-1000000000);
     expect(formattedNumberNeg1B).toBe("-1B");
@@ -88,56 +88,170 @@ describe("Test FriendlyNumber format function with input numbers without decimal
   });
 });
 
+describe("Test FriendlyNumber format function with formattedDecimals config", () => {
+  it("should not reformat numbers between -999 and 999", () => {
+    const config = {
+      formattedDecimals: 1
+    };
+    const number0 = "0";
+    const formattedNumber0 = format(number0, config);
+    expect(formattedNumber0).toBe(number0);
+
+    const number999 = "999";
+    const formattedNumber999 = format(number999, config);
+    expect(formattedNumber999).toBe(number999);
+
+    const numberNeg1 = "-1";
+    const formattedNumberNeg1 = format(numberNeg1, config);
+    expect(formattedNumberNeg1).toBe(numberNeg1);
+
+    const numberNeg999 = "-999";
+    const formattedNumberNeg999 = format(numberNeg999, config);
+    expect(formattedNumberNeg999).toBe(numberNeg999);
+  });
+
+  it("should format with K numbers between 1.000 <=> 999.999 and -1.000 <=> -999.999", () => {
+    const config = {
+      formattedDecimals: 1
+    };
+    const formattedNumber1234K = format(1234, config);
+    expect(formattedNumber1234K).toBe("1.2K");
+
+    const formattedNumberNeg1234K = format(-1234, config);
+    expect(formattedNumberNeg1234K).toBe("-1.2K");
+
+    const formattedNumber1876K = format(1876, config);
+    expect(formattedNumber1876K).toBe("1.9K");
+
+    const formattedNumberNeg1876K = format(-1876, config);
+    expect(formattedNumberNeg1876K).toBe("-1.9K");
+
+    const formattedNumber999K = format(999999, config);
+    expect(formattedNumber999K).toBe("1000K");
+  });
+
+  it("should format with M numbers between 1.000.000 <=> 999.999.999 and -1.000.000 <=> -999.999.999", () => {
+    const config = {
+      formattedDecimals: 2
+    };
+    const formattedNumber1234M = format(1234000, config);
+    expect(formattedNumber1234M).toBe("1.23M");
+
+    const formattedNumberNeg1234M = format(-1234000, config);
+    expect(formattedNumberNeg1234M).toBe("-1.23M");
+
+    const formattedNumber1876M = format(1876000, config);
+    expect(formattedNumber1876M).toBe("1.88M");
+
+    const formattedNumberNeg1876M = format(-1876000, config);
+    expect(formattedNumberNeg1876M).toBe("-1.88M");
+
+    const formattedNumber999M = format(999999999, config);
+    expect(formattedNumber999M).toBe("1000M");
+  });
+
+  it("should format with B numbers between 1.000.000.000 <=> 999.999.999.999 and -1.000.000.000 <=> -999.999.999.999", () => {
+    const config = {
+      formattedDecimals: 3
+    };
+    const formattedNumber1234B = format(1234000000, config);
+    expect(formattedNumber1234B).toBe("1.234B");
+
+    const formattedNumberNeg1234B = format(-1234000000, config);
+    expect(formattedNumberNeg1234B).toBe("-1.234B");
+
+    const formattedNumber1876B = format(1876500000, config);
+    expect(formattedNumber1876B).toBe("1.877B");
+
+    const formattedNumberNeg1876B = format(-1876500000, config);
+    expect(formattedNumberNeg1876B).toBe("-1.877B");
+
+    const formattedNumber999B = format(999999999999, config);
+    expect(formattedNumber999B).toBe("1000B");
+  });
+
+  it("should format with B numbers between 1.000.000.000.000 <=> 999.999.999.999.999 and -1.000.000.000.000 <=> -999.999.999.999.999", () => {
+    const config = {
+      formattedDecimals: 4
+    };
+    const formattedNumber1234T = format(1234500000000, config);
+    expect(formattedNumber1234T).toBe("1.2345T");
+
+    const formattedNumberNeg1234T = format(-1234500000000, config);
+    expect(formattedNumberNeg1234T).toBe("-1.2345T");
+
+    const formattedNumber1876T = format(1876550000000, config);
+    expect(formattedNumber1876T).toBe("1.8766T");
+
+    const formattedNumberNeg1876T = format(-1876550000000, config);
+    expect(formattedNumberNeg1876T).toBe("-1.8766T");
+
+    const formattedNumber999T = format(999999999999999, config);
+    expect(formattedNumber999T).toBe("1000T");
+  });
+});
+
 describe("Test FriendlyNumber format function with input numbers with decimals", () => {
   it("should not reformat numbers with only two decimals and", () => {
+    const config = {
+      decimals: 2,
+      formattedDecimals: 2
+    };
+
     const number999_99 = "999.99";
-    const formattedNumber999_999 = format(number999_99);
+    const formattedNumber999_999 = format(number999_99, config);
     expect(formattedNumber999_999).toBe(number999_99);
 
     const numberNeg999_99 = "-999.99";
-    const formattedNumberneg999_999 = format(numberNeg999_99);
+    const formattedNumberneg999_999 = format(numberNeg999_99, config);
     expect(formattedNumberneg999_999).toBe(numberNeg999_99);
 
     const number0_01 = "0.01";
-    const formattedNumber0_01 = format(number0_01);
+    const formattedNumber0_01 = format(number0_01, config);
     expect(formattedNumber0_01).toBe(number0_01);
 
     const number0_99 = "0.99";
-    const formattedNumber0_99 = format(number0_99);
+    const formattedNumber0_99 = format(number0_99, config);
     expect(formattedNumber0_99).toBe(number0_99);
   });
 
   it("should truncate and round numbers with more than 2 decimasl (default config)", () => {
+    const config = {
+      decimals: 2,
+      formattedDecimals: 2
+    };
+
     const number999_999 = "999.999";
-    const formattedNumber999_999 = format(number999_999);
-    expect(formattedNumber999_999).toBe("1000.00");
+    const formattedNumber999_999 = format(number999_999, config);
+    expect(formattedNumber999_999).toBe("1000");
 
     const numberNeg999_999 = "-999.999";
-    const formattedNumberneg999_999 = format(numberNeg999_999);
-    expect(formattedNumberneg999_999).toBe("-1000.00");
+    const formattedNumberneg999_999 = format(numberNeg999_999, config);
+    expect(formattedNumberneg999_999).toBe("-1000");
 
     const number0_011 = "0.011";
-    const formattedNumber0_011 = format(number0_011);
+    const formattedNumber0_011 = format(number0_011, config);
     expect(formattedNumber0_011).toBe("0.01");
 
     const number0_019 = "0.019";
-    const formattedNumber0_019 = format(number0_019);
+    const formattedNumber0_019 = format(number0_019, config);
     expect(formattedNumber0_019).toBe("0.02");
 
     const number0_991 = "0.991";
-    const formattedNumber0_991 = format(number0_991);
+    const formattedNumber0_991 = format(number0_991, config);
     expect(formattedNumber0_991).toBe("0.99");
 
     const number0_996 = "0.996";
-    const formattedNumber0_996 = format(number0_996);
-    expect(formattedNumber0_996).toBe("1.00");
+    const formattedNumber0_996 = format(number0_996, config);
+    expect(formattedNumber0_996).toBe("1");
   });
 });
 
 describe("Test FriendlyNumber format function with input numbers with decimals and config set to >2", () => {
   it("should not reformat numbers with only 4 decimals and", () => {
     const config = {
-      decimals: 4
+      decimals: 4,
+      formattedDecimals: 4
     };
     const number999_9999 = "999.9999";
     const formattedNumber999_9999 = format(number999_9999, config);
@@ -158,15 +272,16 @@ describe("Test FriendlyNumber format function with input numbers with decimals a
 
   it("should truncate and round numbers with more than 5 decimals (default config)", () => {
     const config = {
-      decimals: 5
+      decimals: 5,
+      formattedDecimals: 5
     };
     const number999_999999 = "999.999999";
     const formattedNumber999_999999 = format(number999_999999, config);
-    expect(formattedNumber999_999999).toBe("1000.00000");
+    expect(formattedNumber999_999999).toBe("1000");
 
     const numberNeg999_999999 = "-999.999999";
     const formattedNumberneg999_999999 = format(numberNeg999_999999, config);
-    expect(formattedNumberneg999_999999).toBe("-1000.00000");
+    expect(formattedNumberneg999_999999).toBe("-1000");
 
     const number0_000011 = "0.000011";
     const formattedNumber0_000011 = format(number0_000011, config);
@@ -182,7 +297,7 @@ describe("Test FriendlyNumber format function with input numbers with decimals a
 
     const number0_999996 = "0.999996";
     const formattedNumber0_999996 = format(number0_999996, config);
-    expect(formattedNumber0_999996).toBe("1.00000");
+    expect(formattedNumber0_999996).toBe("1");
   });
 });
 
@@ -216,29 +331,29 @@ describe("Test FriendlyNumber format function with input numbers with decimals a
     const formattedNumber0_00099123 = format(number0_00099123, config);
     expect(formattedNumber0_00099123).toBe("0.00099");
 
-    const number0_0000000123 = "0.0000000123";
+    const number0_0000000123 = "0.00000123";
     const formattedNumber0_0000000123 = format(number0_0000000123, config);
-    expect(formattedNumber0_0000000123).toBe("0.000000012");
+    expect(formattedNumber0_0000000123).toBe("0.0000012");
 
-    const number0_0000000127 = "0.0000000127";
-    const formattedNumber0_0000000127 = format(number0_0000000127, config);
-    expect(formattedNumber0_0000000127).toBe("0.000000013");
+    const number0_00000127 = "0.00000127";
+    const formattedNumber0_00000127 = format(number0_00000127, config);
+    expect(formattedNumber0_00000127).toBe("0.0000013");
 
-    const number0_00000001217 = "0.00000001217";
-    const formattedNumber0_00000001217 = format(number0_00000001217, config);
-    expect(formattedNumber0_00000001217).toBe("0.000000012");
+    const number0_000001217 = "0.000001217";
+    const formattedNumber0_000001217 = format(number0_000001217, config);
+    expect(formattedNumber0_000001217).toBe("0.0000012");
 
-    const number0_000001257 = "0.000001257";
-    const formattedNumber0_000001257 = format(number0_000001257, config);
-    expect(formattedNumber0_000001257).toBe("0.0000013");
+    const number0_00001257 = "0.00001257";
+    const formattedNumber0_00001257 = format(number0_00001257, config);
+    expect(formattedNumber0_00001257).toBe("0.000013");
 
-    const number0_000005557 = "0.000005557";
-    const formattedNumber0_000005557 = format(number0_000005557, config);
-    expect(formattedNumber0_000005557).toBe("0.0000056");
+    const number0_00005557 = "0.00005557";
+    const formattedNumber0_00005557 = format(number0_00005557, config);
+    expect(formattedNumber0_00005557).toBe("0.000056");
 
-    const number0_00000999 = "0.00000999";
-    const formattedNumber0_00000999 = format(number0_00000999, config);
-    expect(formattedNumber0_00000999).toBe("0.0000100");
+    const number0_0000999 = "0.0000999";
+    const formattedNumber0_0000999 = format(number0_0000999, config);
+    expect(formattedNumber0_0000999).toBe("0.0001");
   });
 });
 
