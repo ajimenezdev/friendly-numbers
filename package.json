@@ -1,6 +1,6 @@
 {
   "name": "friendly-numbers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JS library to manage and format numbers with Thousand (k), Million (M), etc. syntax",
   "main": "src/index.js",
   "repository": "https://github.com/AJM88/friendlyNumbers.git",
