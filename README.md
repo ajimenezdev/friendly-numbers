@@ -12,13 +12,13 @@ Another config proerty will help to manage decimals for very small numbers, wher
 
 with npm
 
-```
+```shell
 $ npm install friendly-numbers
 ```
 
 with yarn
 
-```
+```shell
 $ yarn add friendly-numbers
 ```
 
@@ -28,7 +28,7 @@ $ yarn add friendly-numbers
 
 This function will shrink the received number if it is bigger than 999 and it will returned a string with the TBMK corresponding notation.
 
-```
+```javascript
 import { format } from 'friendly-numbers';
 
 ...
@@ -53,7 +53,7 @@ const formattedBalance = format(totalBalance);
 
 There is an optional config parameter that can be passed to `format` function
 
-```
+```javascript
 const config = {
   // Define decimal numbers to display in the decimal part, if decimals present
   decimals: 2,
@@ -81,7 +81,7 @@ const formattedNumber = format(number, config);
 This function will parse formatted numbers with `format` function in the notation of TBMK into full numbers.<br/>
 **Note** Please bear in mind that the usage of this function it is not recommended as it can produce a loss of precission. The recommended approach is to keep in the code the full number and only formatted during the render process.
 
-```
+```javascript
 import { deFormat } from 'friendly-numbers';
 
 ...
@@ -96,7 +96,7 @@ const balance = deFormat(formattedBalance);
 
 Precission loss example:
 
-```
+```javascript
 import { format, deFormat } from 'friendly-numbers';
 
 ...
