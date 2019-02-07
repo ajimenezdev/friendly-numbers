@@ -1,4 +1,6 @@
 # friendly-numbers
+[![CircleCI](https://circleci.com/gh/AJM88/friendly-numbers.svg?style=shield)](https://circleci.com/gh/AJM88/friendly-numbers)
+[![npm version](https://badge.fury.io/js/friendly-numbers.svg)](https://badge.fury.io/js/friendly-numbers)
 
 JS library to manage and format numbers with Thousand (k), Million (M), etc. syntax and also to format small decimal numbers.
 
