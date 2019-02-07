@@ -36,8 +36,6 @@ const roundDecimals = (number, decimals, smallMinimumMeaningfulDigits) => {
       smallMinimumMeaningfulDigits -
       1 -
       Math.floor(Math.log(floatNumber) / Math.log(10));
-    if (fixedNumber < 0) fixedNumber = 0;
-    if (fixedNumber > 20) fixedNumber = 20;
     return round(floatNumber, fixedNumber);
   }
   return floatNumber;
